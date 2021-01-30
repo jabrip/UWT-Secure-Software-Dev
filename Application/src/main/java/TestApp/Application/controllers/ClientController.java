@@ -22,11 +22,17 @@ import org.json.JSONObject;
 
 /**
  *
- * A sample greetings controller to return greeting text
+ * A simple interface for interacting with the Virtual Vehicles API.
+ * Uses a base url of http://localhost:5000.
+ * Port number can be changed in application.properties under resources.
  */
 @RestController
 public class ClientController {
 
+	/**
+	 * EX: "http://localhost:5000"
+	 * @return Welcome string
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public String defaultView() {
@@ -34,7 +40,7 @@ public class ClientController {
 	}
 	
     /**
-     *
+     * EX: "http://localhost:5000/viewclients"
      * @return retString
      */
     @RequestMapping(value = "/viewclients", method = RequestMethod.GET)
@@ -73,7 +79,7 @@ public class ClientController {
     }
     
     /**
-     * 
+     * EX: "http://localhost:5000/readclient?oid={ObjectID}"
      * @param theClient
      * @return retString
      */
@@ -111,7 +117,7 @@ public class ClientController {
     }
     
     /**
-     * 
+     * EX: "http://localhost:5000/addclient?application={Name}&secret={Secret}"
      * @param application
      * @return
      */
@@ -152,7 +158,7 @@ public class ClientController {
     }
     
     /**
-     * 
+     * EX: "http://localhost:5000/deleteclient?oid={ObjectID}"
      * @param oid
      * @return retString
      */
@@ -183,7 +189,7 @@ public class ClientController {
     }
     
     /**
-     * 
+     * EX: "http://localhost:5000/ping"
      * @return retString
      */
     @GetMapping("/ping")
