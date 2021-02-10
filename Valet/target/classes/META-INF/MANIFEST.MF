@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: stflaptop
+Built-By: Jabriel
 Build-Jdk: 15.0.1
 Class-Path: ./lib/RestExpress-0.11.3.jar ./lib/RestExpress-Common-0.11.3
  .jar ./lib/DateAdapterJ-1.1.4.jar ./lib/jackson-databind-2.7.1-1.jar ./

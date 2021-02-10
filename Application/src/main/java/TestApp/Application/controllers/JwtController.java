@@ -30,7 +30,7 @@ public class JwtController {
      */
     @RequestMapping(value = "/jwts", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public String CreateJwt(@RequestParam(value = "apiKey")String apiKey, 
+    public String createJwt(@RequestParam(value = "apiKey")String apiKey, 
     		@RequestParam(value = "secret")String secret) {
     	String output = "";
     	try {
@@ -39,17 +39,7 @@ public class JwtController {
     		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     				
     		conn.setRequestMethod("GET");
-    		//conn.setRequestProperty("Content-Type", "apiKey/json; charset=UTF-8");
     	    conn.setRequestProperty("Accept", "application/json");
-    	   // conn.setDoOutput(true);
-    	    
-//    	    JSONObject newApp = new JSONObject();
-  //  	    newApp.put("apiKey", apiKey);
-    //	    newApp.put("secret", secret);
-    	    
-    	//    OutputStream os = conn.getOutputStream();
-    	  //  os.write(newApp.toString().getBytes("UTF-8"));
-    	   // os.close();
     	    
     	    BufferedReader br = new BufferedReader(new InputStreamReader(
     	                    (conn.getInputStream())));
@@ -64,7 +54,32 @@ public class JwtController {
     	return output;
     }
     
-    
+    /**
+     * EX: "http://localhost:5000/validatejwt?jwt={jwt}"
+     * @param JWT
+     * @return success of validating jwt
+     */
+    @RequestMapping(value = "/validatejwt", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public String validateJwt(@RequestParam(value = "jwt")String JWT) {
+    	String output = "";
+    	try {
+    		URL url = new URL("http://localhost:8587/jwts/" + JWT);
+    		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    				
+    		conn.setRequestMethod("GET");
+    	    conn.setRequestProperty("Accept", "application/json");
+    	    
+    	    BufferedReader br = new BufferedReader(new InputStreamReader(
+    	                    (conn.getInputStream())));
+
+    	    output = br.readLine();
+    	    br.close();
+    	} catch(Exception e) {
+    		System.out.println(e.toString());
+    	}
+    	return output;
+    }
     
 }
 
