@@ -51,7 +51,7 @@ public class JwtController {
     		System.out.println(e.toString());
     	}
     	System.out.print(output);
-    	return output;
+    	return "New JWT:</br>" + output.substring(1, output.length()-1);
     }
     
     /**
@@ -78,7 +78,11 @@ public class JwtController {
     	} catch(Exception e) {
     		System.out.println(e.toString());
     	}
-    	return output;
+    	if(output.compareTo("true") == 0) {
+    		return "This is a valid JWT";
+    	} else {
+    		return "This is an invalid JWT";
+    	}
     }
     
 }

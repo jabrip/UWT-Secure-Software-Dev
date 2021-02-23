@@ -56,6 +56,10 @@ public class VehicleController {
      * @return
      */
     public Vehicle create(Request request, Response response) {
+    	if (jwtImpl.authenticateJwt(request, baseUrl) != true) {
+            response.setResponseStatus(HttpResponseStatus.UNAUTHORIZED);
+            return null;
+        }
         Vehicle entity = request.getBodyAs(Vehicle.class, "Resource details not provided");
         Vehicle saved = service.create(entity);
 
@@ -82,6 +86,10 @@ public class VehicleController {
      * @return
      */
     public Vehicle read(Request request, Response response) {
+    	if (jwtImpl.authenticateJwt(request, baseUrl) != true) {
+            response.setResponseStatus(HttpResponseStatus.UNAUTHORIZED);
+            return null;
+        }
         String id = request.getHeader(Constants.Url.VEHICLE_ID, "No resource ID supplied");
         Vehicle entity = service.read(Identifiers.MONGOID.parse(id));
 
@@ -98,6 +106,10 @@ public class VehicleController {
      * @return
      */
     public List<Vehicle> readAll(Request request, Response response) {
+    	if (jwtImpl.authenticateJwt(request, baseUrl) != true) {
+            response.setResponseStatus(HttpResponseStatus.UNAUTHORIZED);
+            return null;
+        }
         QueryFilter filter = QueryFilters.parseFrom(request);
         QueryOrder order = QueryOrders.parseFrom(request);
         QueryRange range = QueryRanges.parseFrom(request, 20);
@@ -128,6 +140,10 @@ public class VehicleController {
      * @return
      */
     public Vehicle update(Request request, Response response) {
+    	if (jwtImpl.authenticateJwt(request, baseUrl) != true) {
+            response.setResponseStatus(HttpResponseStatus.UNAUTHORIZED);
+            return null;
+        }
         String id = request.getHeader(Constants.Url.VEHICLE_ID, "No resource ID supplied");
         Vehicle entity = request.getBodyAs(Vehicle.class, "Resource details not provided");
         entity.setId(Identifiers.MONGOID.parse(id));
@@ -154,6 +170,9 @@ public class VehicleController {
      * @param response
      */
     public void delete(Request request, Response response) {
+    	if (jwtImpl.authenticateJwt(request, baseUrl) != true) {
+            response.setResponseStatus(HttpResponseStatus.UNAUTHORIZED);
+        }
         String id = request.getHeader(Constants.Url.VEHICLE_ID, "No resource ID supplied");
         service.delete(Identifiers.MONGOID.parse(id));
 
