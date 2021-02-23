@@ -107,7 +107,7 @@ public class ClientController {
     	    br.close();
     	} catch(Exception e) {
     		System.out.println(e.toString());
-    	}
+    	}	
     	
     	if(obj == null) {
     		return "Error: Object not found";
@@ -154,6 +154,7 @@ public class ClientController {
     	} catch(Exception e) {
     		System.out.println(e.toString());
     	}
+    	
     	return clientToString(obj);
     }
     
