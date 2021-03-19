@@ -109,9 +109,9 @@ public class ClientController {
     		System.out.println(e.toString());
     	}	
     	
-    	if(obj == null) {
-    		return "Error: Object not found";
-    	}
+//    	if(obj == null) {
+//    		return "Error: Object not found";
+//    	}
     	
 		return clientToString(obj);
     }
