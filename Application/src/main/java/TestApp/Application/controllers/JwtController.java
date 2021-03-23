@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,7 +52,7 @@ public class JwtController {
     		System.out.println(e.toString());
     	}
     	System.out.print(output);
-    	return "New JWT:</br>" + output.substring(1, output.length()-1);
+    	return "New JWT:</br>" + StringEscapeUtils.escapeHtml4(output.substring(1, output.length()-1));
     }
     
     /**

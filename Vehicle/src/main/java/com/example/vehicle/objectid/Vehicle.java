@@ -20,6 +20,7 @@ public class Vehicle
     private String color;
     private String type;
     private int mileage;
+    private String owner;
 
     /**
      *
@@ -37,13 +38,14 @@ public class Vehicle
      * @param mileage
      */
     public Vehicle(final int year, final String make, final String model,
-            final String color, final String type, final int mileage) {
+            final String color, final String type, final int mileage, final String owner) {
         this.year = year;
         this.make = make;
         this.model = model;
         this.color = color;
         this.type = type;
         this.mileage = mileage;
+        this.owner = owner;
     }
 
     @Override
@@ -135,5 +137,11 @@ public class Vehicle
         this.mileage = mileage;
     }
     
+    public String getOwner() {
+    	return owner;
+    }
     
+    public void setOwner(String owner) {
+    	this.owner = owner;
+    }
 }

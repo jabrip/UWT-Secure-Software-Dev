@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -107,13 +110,57 @@ public class ClientController {
     	    br.close();
     	} catch(Exception e) {
     		System.out.println(e.toString());
-    	}	
+    	}
     	
     	if(obj == null) {
     		return "Error: Object not found";
     	}
     	
 		return clientToString(obj);
+    }
+    
+    /**
+     * EX: "http://localhost:5000/nameclient?name={Name}"
+     * @param name
+     * @return
+     */
+    @GetMapping("/nameclient")
+    @ResponseStatus(HttpStatus.OK)
+    public String nameClient(@RequestParam(value = "name")String name) {
+    	
+    	name = StringEscapeUtils.escapeHtml4(name);
+    	
+    	String output = "";
+    	JSONObject obj = null;
+    	JSONArray myArr = null;
+    	String retString = "Applications with a name of " + name + ":<br/>------------------------------<br/>";
+    	try {
+    		URL url = new URL("http://localhost:8587/clients?filter=application::" + name);
+    		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    		
+    		conn.setRequestMethod("GET");
+    		conn.setRequestProperty("Accept", "application/json");
+    		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+    		
+    		output = br.readLine();
+    		obj = new JSONObject(output);
+    		br.close();
+    	} catch(Exception e) {
+    		System.out.println(e.toString());
+    	}
+    	
+    	if(obj == null) {
+    		return "Error: Object not found";
+    	}
+    	myArr = obj.getJSONObject("_embedded").getJSONArray("clients");
+		
+    	for(int i = 0; i < myArr.length(); i++) {
+    		JSONObject app = myArr.getJSONObject(i);
+    		retString += clientToString(app) + "<br/>";
+
+    	}
+    	
+    	return retString;
     }
     
     /**
@@ -166,8 +213,6 @@ public class ClientController {
     @GetMapping("/deleteclient")
     @ResponseStatus(HttpStatus.OK)
     public String deleteClient(@RequestParam(value = "oid")String oid) {
-    	
-    	
     	try {
     		URL url = new URL("http://localhost:8587/clients/" + oid);
     		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -181,11 +226,7 @@ public class ClientController {
     	} catch(Exception e) {
     		System.out.println(e.toString());
     	}
-    	
-//    	if(obj == null) {
-//    		return "Error: Object not found";
-//    	}
-//    	
+    	  	
 		return "Client Successfully deleted.";
     }
     
