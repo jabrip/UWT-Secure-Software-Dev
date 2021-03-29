@@ -35,7 +35,7 @@ jobs:
         uses: hahwul/action-dalfox@main
         id: xss-result
         with:
-          target: 'https://localhost:5000/nameclient'
+          target: 'https://localhost:5000'
           mode: url
           cmd_options: '--follow-redirects'
 
