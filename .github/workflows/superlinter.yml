@@ -1,4 +1,4 @@
-name: Super-Linter
+name:  Dev Security Testing
 
 # Run this workflow every time a new commit pushed to your repository
 on: push
@@ -23,3 +23,22 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  test_scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+        
+      - name: SAST Scan
+        uses: AppThreat/sast-scan-action@master
+        with:
+          type: "java"
+          
+      - name: DevSkim Scan
+        uses: microsoft/DevSkim-Action@v1
+        
+      - name: Upload Sarif file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: devskim-results.sarif
+
+
