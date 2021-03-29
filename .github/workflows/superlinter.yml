@@ -1,4 +1,4 @@
-name: SAST Testing
+name: Security Testing
 
 # Run this workflow every time a new commit pushed to your repository
 on: push
@@ -23,17 +23,17 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  api_audit_job:
+  zap_scan:
     runs-on: ubuntu-latest
-    name: Audit OpenAPI files
+    name: Scan the webapplication
     steps:
-      - uses: actions/checkout@v2
-      - uses: 42Crunch/api-security-audit-action@v1
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
-          # Please create free account at https://platform.42crunch.com/register
-          # Follow these steps to configure API_TOKEN https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
-          api-token: ${{ secrets.API_TOKEN }}
-          min-score: 85
-          collection-name: UWT DevSecOps Project
+          ref: master
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.2.0
+        with:
+          target: 'http://localhost:5000'
 
 
