@@ -23,21 +23,20 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  zap_scan:
+  dalfox_scan:
     runs-on: ubuntu-latest
-    name: Scan the webapplication
+    name: XSS Scanning
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           ref: master
-      - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.4.0
+      - name: Dalfox scan
+        uses: hahwul/action-dalfox@main
+        id: xss-result
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          docker_name: 'owasp/zap2docker-stable'
-          target: 'https://localhost:5000'
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a'
+          target: 'https://localhost:5000/nameclient'
+          mode: url
+          cmd_options: '--follow-redirects'
 
 
