@@ -34,7 +34,12 @@ jobs:
         uses: AppThreat/sast-scan-action@master
         with:
           type: "java"
-          
+  scan2:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: DevSkim Scan
         uses: microsoft/DevSkim-Action@v1
       - name: Sarif upload  
