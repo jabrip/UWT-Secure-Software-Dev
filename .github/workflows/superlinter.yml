@@ -34,6 +34,10 @@ jobs:
         uses: AppThreat/sast-scan-action@master
         with:
           type: "java"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: reports
+          path: reports
   scan2:
     runs-on: ubuntu-latest
     
